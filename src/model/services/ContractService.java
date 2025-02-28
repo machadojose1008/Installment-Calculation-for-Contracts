@@ -26,7 +26,9 @@ public class ContractService {
         List<Installment> installments = new ArrayList<>(months);
         for(int i=0; i<months;i++){
             LocalDate dueDate = contract.getDate().plusMonths(i+1);
-            double quota = paymentService.paymentFee(paymentService.interest(basicQuota,i+1));
+            double interest = paymentService.interest(basicQuota,i+1) + basicQuota;
+            double fee = paymentService.paymentFee(interest);
+            double quota = fee + interest;
             installments.add(new Installment(dueDate,quota));
         }
 
